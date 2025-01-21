@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YouTube Video Info</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 10px;
+        color: white;
+        background-color: #101111;
+        width: 282px;
+      }
+      .link {
+        color: #1db6b6;
+        text-decoration: underline;
+      }
+      a {
+        color: #e35454;
+      }
+      /* Add this CSS to your popup HTML */
+      .link {
+        display: block;
+        margin-bottom: 10px; /* Add margin between each link */
+        padding: 8px;
+        background-color: #f4f4f4; /* Light background for readability */
+        border-radius: 4px; /* Rounded corners */
+        text-decoration: none;
+        color: #333; /* Dark text for contrast */
+      }
+
+      .link:hover {
+        background-color: #e0e0e0; /* Hover effect */
+      }
+
+      .link-description {
+        font-size: 0.9em; /* Smaller text for the description */
+        color: #666; /* Lighter text color for description */
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Video Details</h3>
+    <div id="video-info">Loading...</div>
+    <div id="links-container"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
