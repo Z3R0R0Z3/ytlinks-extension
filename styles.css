@@ -1,0 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  color: white;
+  background-color: #101111;
+  width: 360px;
+}
+
+a {
+  color: #e35454;
+}
+
+li {
+  display: block;
+  margin-bottom: 15px;
+  padding: 6px;
+  background-color: #1b1b1b;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+li:hover {
+  scale: 1.05;
+}
+
+.link-description {
+  font-size: 0.9em;
+  color: #ffffff;
+  margin-top: 4px;
+}

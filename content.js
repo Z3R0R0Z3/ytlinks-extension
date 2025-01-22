@@ -1,68 +1,82 @@
 const waitForElement = (selector, timeout = 5000) =>
   new Promise((resolve, reject) => {
-    const interval = 100; // Check every 100ms
+    let interval = 100; // Start with 100ms
+    const maxInterval = 500; // Cap at 500ms
+    let elapsedTime = 0;
+
     const timer = setInterval(() => {
       const element = document.querySelector(selector);
       if (element) {
         clearInterval(timer);
         resolve(element);
+      } else if (elapsedTime >= timeout) {
+        clearInterval(timer);
+        reject(new Error("Timeout: Element not found"));
       }
+      elapsedTime += interval;
+      interval = Math.min(interval * 1.5, maxInterval); // Increase interval up to maxInterval
     }, interval);
-
-    setTimeout(() => {
-      clearInterval(timer);
-      reject(new Error("Timeout: Element not found"));
-    }, timeout);
   });
 
 const getVideoDetails = async () => {
   await waitForElement("#description"); // Wait for the description to load
 
+  // Extract title
   const titleElement = document.querySelector(
     "h1.ytd-watch-metadata yt-formatted-string"
   );
-  const title = titleElement
-    ? titleElement.innerText.trim()
-    : "Title not found";
+  const title = titleElement?.innerText.trim() || "Title not found";
 
+  // Extract description
   const descriptionElement = document.querySelector(
     "#description yt-formatted-string span"
   );
-  const description = descriptionElement
-    ? descriptionElement.innerText.trim()
-    : "Description not found";
+  const description =
+    descriptionElement?.innerText.trim() || "Description not found";
 
+  // Extract channel name
   const channelElement = document.querySelector(".ytd-channel-name a");
-  const channel = channelElement
-    ? channelElement.innerText.trim()
-    : "Channel not found";
+  const channel = channelElement?.innerText.trim() || "Channel not found";
 
-  const links = [...document.querySelectorAll("#description a")].map((a) => {
-    const href = a.href; // The raw link
-    const isRedirect = href.startsWith("https://www.youtube.com/redirect");
-    let actualLink = href;
-
-    // Extract the actual link if it's a YouTube redirect
-    if (isRedirect) {
+  // Process links in the description
+  const uniqueLinks = new Map(); // Use a Map to ensure uniqueness
+  const links = [...document.querySelectorAll("#description a")]
+    .filter((a) => a.href.startsWith("https://www.youtube.com/redirect")) // Only YouTube redirects
+    .map((a) => {
+      const href = a.href;
       const urlParams = new URLSearchParams(new URL(href).search);
-      actualLink = urlParams.get("q") || href;
-    }
+      const actualLink = urlParams.get("q") || href; // Extract the actual link from redirect
 
-    // Get the link title
-    const linkTitle = a.innerText.trim() || actualLink;
-    const surroundingText = a.parentElement?.closest("span")
-      ? a.parentElement?.closest("span").innerText.trim()
-      : "No description available"; // Text in the surrounding span
+      // Extract link title and surrounding text
+      const linkTitle = a.innerText.trim() || actualLink;
+      const surroundingText =
+        a.parentElement?.previousSibling?.nodeType === Node.TEXT_NODE
+          ? a.parentElement.previousSibling.textContent.trim()
+          : a.parentElement?.previousElementSibling?.innerText.trim() || "";
 
-    return { link: actualLink, text: linkTitle, surrounding: surroundingText };
-  });
+      // Add link to the Map, ensuring uniqueness based on the actual link
+      uniqueLinks.set(actualLink, {
+        link: actualLink,
+        text: linkTitle,
+        surrounding: surroundingText,
+      });
+    });
 
-  return { title, description, links, channel };
+  // Convert the Map back to an array of unique links
+  const uniqueLinksArray = Array.from(uniqueLinks.values());
+
+  return { title, description, links: uniqueLinksArray, channel };
 };
 
+// Listen for messages from the extension
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "GET_VIDEO_DETAILS") {
-    getVideoDetails().then(sendResponse);
+    getVideoDetails()
+      .then(sendResponse)
+      .catch((err) => {
+        console.error(err);
+        sendResponse({ error: "Failed to retrieve video details." });
+      });
     return true; // Keep the message channel open for async response
   }
 });
