@@ -22,8 +22,9 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
               .map(
                 (linkObj) => `
                   <li>
-                    <a href="${linkObj.link}" target="_blank">${linkObj.linkText}</a>
-                    <div class="link-description">${linkObj.surroundingText}</div>
+                    <div class="link-description">${linkObj.surrounding}</div>
+
+                    <a href="${linkObj.link}" target="_blank">${linkObj.text}</a>
                   </li>`
               )
               .join("")}</ul>

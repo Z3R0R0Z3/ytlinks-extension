@@ -50,8 +50,11 @@ const getVideoDetails = async () => {
 
     // Get the link title
     const linkTitle = a.innerText.trim() || actualLink;
+    const surroundingText = a.parentElement?.closest("span")
+      ? a.parentElement?.closest("span").innerText.trim()
+      : "No description available"; // Text in the surrounding span
 
-    return { link: actualLink, text: linkTitle };
+    return { link: actualLink, text: linkTitle, surrounding: surroundingText };
   });
 
   return { title, description, links, channel };
