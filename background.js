@@ -7,7 +7,6 @@ chrome.action.onClicked.addListener((tab) => {
 
 chrome.commands.onCommand.addListener((command) => {
   if (command === "open-popup") {
-    // Open the extension popup
     chrome.action.openPopup();
   }
 });

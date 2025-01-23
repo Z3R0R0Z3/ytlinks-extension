@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 10px;
+  padding: 13px;
   color: white;
   background-color: #101111;
   width: 360px;
@@ -13,19 +13,73 @@ a {
 li {
   display: block;
   margin-bottom: 15px;
-  padding: 6px;
-  background-color: #1b1b1b;
-  border-radius: 4px;
+  padding: 13px;
+  background-color: #1d1d1d;
+  border: 1px solid #424242;
+  border-radius: 10px;
   text-decoration: none;
   color: #ffffff;
+  transition: transform 0.2s ease;
 }
 
 li:hover {
-  scale: 1.05;
+  transform: scale(1.05);
 }
 
 .link-description {
-  font-size: 0.9em;
+  font-size: 1em;
   color: #ffffff;
-  margin-top: 4px;
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.brand {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 2px;
+  font-family: "Arial", sans-serif;
+  text-transform: uppercase;
+  color: #e35454;
+}
+
+.channel-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.profilepic {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+.channel {
+  font-size: 1.5em;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 50px);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #353535;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e35454;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
