@@ -27,9 +27,25 @@ const getVideoDetails = async () => {
   );
   const title = titleElement?.innerText.trim() || "Title not found";
 
-  // Extract description
-  const viewsElement = document.querySelector("ytd-watch-info-text");
-  const views = viewsElement?.innerText.trim() || "views not found";
+  const viewText =
+    document.querySelector(
+      "#teaser-carousel .ytVideoMetadataCarouselViewModelHost"
+    ) !== null
+      ? "Watching now"
+      : "Views";
+
+  // Extract views
+  let viewsElement = document.querySelector("#view-count");
+  let views = viewsElement?.getAttribute("aria-label").trim();
+
+  if (views === "") {
+    viewsElement = document.querySelector(
+      "yt-formatted-string.ytd-watch-info-text span:nth-child(1)"
+    );
+    views = `${viewsElement?.innerText.trim().split(" ")[0]} ${viewText}`;
+  } else {
+    views = `${views.split(" ")[0]} ${viewText}`;
+  }
 
   // Extract channel name
   const channelElement = document.querySelector(".ytd-channel-name a");
