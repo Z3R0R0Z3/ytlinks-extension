@@ -12,8 +12,9 @@ A Chrome extension that extracts and displays detailed information about YouTube
 ## How to Use
 
 1. **Install the Extension:**
+
    - **Clone the repository** to your local machine using Git:
-   
+
      ```bash
      git clone https://github.com/Z3R0R0Z3/ytlinks-extension.git
      ```
@@ -30,15 +31,14 @@ A Chrome extension that extracts and displays detailed information about YouTube
      - **Description**
      - **Channel Name**
      - **Redirection Links** (If any)
-   
 3. **Keyboard Shortcut:**
    - You can open the popup directly by pressing the shortcut `Ctrl + Shift + Y` while on a YouTube page.
 
 ## Keyboard Shortcuts
 
-| Action            | Shortcut          |
-|-------------------|-------------------|
-| Open Popup        | `Ctrl + Shift + Y`|
+| Action     | Shortcut           |
+| ---------- | ------------------ |
+| Open Popup | `Ctrl + Shift + Y` |
 
 ## Permissions
 
