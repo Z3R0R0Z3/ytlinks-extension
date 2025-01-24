@@ -36,16 +36,16 @@ const getVideoDetails = async () => {
 
   // Extract views
   let viewsElement = document.querySelector("#view-count");
-  let views = viewsElement?.getAttribute("aria-label").trim();
+  let viewCount = viewsElement?.getAttribute("aria-label").trim();
 
-  if (views === "") {
+  if (viewCount === "") {
     viewsElement = document.querySelector(
       "yt-formatted-string.ytd-watch-info-text span:nth-child(1)"
     );
-    views = `${viewsElement?.innerText.trim().split(" ")[0]} ${viewText}`;
-  } else {
-    views = `${views.split(" ")[0]} ${viewText}`;
+    viewCount = `${viewsElement?.innerText.trim()}`;
   }
+
+  const views = `${viewCount.split(" ")[0]} ${viewText}`;
 
   // Extract channel name
   const channelElement = document.querySelector(".ytd-channel-name a");
